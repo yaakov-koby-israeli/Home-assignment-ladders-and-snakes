@@ -14,6 +14,6 @@ namespace Ladders_and_snakes_game
             this._index = index;
         }
 
-        protected abstract int GetIndex();
+        public abstract int GetIndex();
     }
 }

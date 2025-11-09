@@ -10,7 +10,7 @@ namespace Ladders_and_snakes_game
     {
         public EmptyCell(int index): base(index) { }
 
-        protected override int GetIndex()
+        public override int GetIndex()
         {
             return _index;
         }

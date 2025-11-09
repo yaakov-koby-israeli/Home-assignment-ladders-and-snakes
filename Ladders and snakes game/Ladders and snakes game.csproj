@@ -40,10 +40,11 @@
     <Compile Include="Dice.cs" />
     <Compile Include="EmptyCell.cs" />
     <Compile Include="EnumCellType.cs" />
-    <Compile Include="HeadOrTailCell.cs" />
+    <Compile Include="TopOrBottomCell.cs" />
     <Compile Include="IPlayer.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="SnakeLink.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
