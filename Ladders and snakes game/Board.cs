@@ -12,10 +12,17 @@ namespace Ladders_and_snakes_game
 
         private int _boardSize = 0;
 
-        public Board(int boardSize)
+        private int _rows = 0;
+        private int _cols = 0;
+
+        public Board(int rows , int cols)
         {
-            SetBoardSize(boardSize);
-            _cells = new Cell[boardSize + 1];
+            _rows = rows;
+            _cols = cols;
+            
+            SetBoardSize(rows * cols);
+
+            _cells = new Cell[_boardSize + 1];
         }
 
         // create setBoardSize method for future validation if needed
