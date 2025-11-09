@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 
 namespace Ladders_and_snakes_game
 {
-    internal class HeadOrTailCell: Cell
+    internal class TopOrBottomCell: Cell
     {
         private enumCellType _cellType;
-        public HeadOrTailCell(int index , enumCellType cellType) : base(index) 
+        public TopOrBottomCell(int index , enumCellType cellType) : base(index) 
         {
             this._cellType = cellType;
         }
-        protected override int GetIndex()
+        public override int GetIndex()
         {
             return _index;
         }
-
         public enumCellType GetCellType()
         {
             return _cellType;
