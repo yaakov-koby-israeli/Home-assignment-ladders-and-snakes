@@ -31,5 +31,24 @@ namespace Ladders_and_snakes_game
             _boardSize = boardSize;
         }
 
+        public Cell[] GetCells()
+        {
+            return _cells;
+        }
+
+        public int GetRows()
+        {
+            return _rows;
+        }
+
+        public int GetCols()
+        {
+            return _cols;
+        }
+
+        public int GetBoardSize()
+        {
+            return _boardSize;
+        }
     }
 }

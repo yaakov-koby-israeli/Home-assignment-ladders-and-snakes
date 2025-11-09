@@ -36,6 +36,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Board.cs" />
+    <Compile Include="BoardFactory.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Dice.cs" />
     <Compile Include="EmptyCell.cs" />
@@ -45,6 +47,7 @@
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SnakeLink.cs" />
+    <Compile Include="Utilities\RandomProvider.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

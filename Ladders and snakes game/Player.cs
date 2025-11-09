@@ -12,6 +12,7 @@ namespace Ladders_and_snakes_game
 
         public int Id { get; private set; }
 
+        // All players start at position 0
         public int Position { get; set; } = 0;
 
         public bool HasWon { get; set; } = false;
