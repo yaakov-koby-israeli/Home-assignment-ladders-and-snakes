@@ -27,7 +27,7 @@ namespace Ladders_and_snakes_game.Factory
             {
                 if (cells[i] == null)
                 {
-                    cells[i] = new EmptyCell(i);
+                    cells[i] = new EmptyCell(i,enumCellType.Empty);
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace Ladders_and_snakes_game.Factory
                 SnakeLink newSnake = new SnakeLink(snakeHead, snakeTail);
 
                 // add the new snake to the board snakes list
-                gameBoard.GetSnakes().Add(newSnake);
+                gameBoard.GetSnakesList().Add(newSnake);
             }
         }
 

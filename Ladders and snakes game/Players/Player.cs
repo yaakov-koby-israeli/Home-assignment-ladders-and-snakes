@@ -21,5 +21,10 @@ namespace Ladders_and_snakes_game.Players
         {
             Id = _initID++;
         }
+
+        public void MovePlayer(int diceResult)
+        {
+            Position+= diceResult;
+        }
     }
 }

@@ -9,11 +9,16 @@ namespace Ladders_and_snakes_game.Core
 {
     internal class EmptyCell: Cell
     {
-        public EmptyCell(int index): base(index) { }
+        public EmptyCell(int index, enumCellType cellType): base(index,cellType) { }
 
         public int GetIndex()
         {
             return _index;
+        }
+
+        public override enumCellType GetCellType()
+        {
+            return _cellType;
         }
 
         //protected override int OnLand()

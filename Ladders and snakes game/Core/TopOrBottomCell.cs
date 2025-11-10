@@ -8,16 +8,13 @@ namespace Ladders_and_snakes_game.Core
 {
     internal class TopOrBottomCell: Cell
     {
-        private enumCellType _cellType;
-        public TopOrBottomCell(int index , enumCellType cellType) : base(index) 
-        {
-            this._cellType = cellType;
-        }
+        
+        public TopOrBottomCell(int index , enumCellType cellType) : base(index, cellType) { }
         public int GetIndex()
         {
             return _index;
         }
-        public enumCellType GetCellType()
+        public override enumCellType GetCellType()
         {
             return _cellType;
         }

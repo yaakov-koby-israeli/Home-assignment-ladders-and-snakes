@@ -14,5 +14,7 @@ namespace Ladders_and_snakes_game.Players
 
         bool HasWon { get; set; }
 
+        void MovePlayer(int diceResult);
+
     }
 }

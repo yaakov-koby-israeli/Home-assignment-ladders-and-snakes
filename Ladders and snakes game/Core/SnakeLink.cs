@@ -16,11 +16,11 @@ namespace Ladders_and_snakes_game.Core
             this._headCell = headIndex;
             this._tailCell = tailIndex;
         }
-        public TopOrBottomCell GetHeadCellIndex()
+        public TopOrBottomCell GetHeadCell()
         {
             return _headCell;
         }
-        public TopOrBottomCell GetTailCellIndex()
+        public TopOrBottomCell GetTailCell()
         {
             return _tailCell;
         }
