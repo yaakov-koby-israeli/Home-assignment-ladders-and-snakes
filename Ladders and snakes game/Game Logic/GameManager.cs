@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Ladders_and_snakes_game.Core;
 using Ladders_and_snakes_game.Factory;
 using Ladders_and_snakes_game.Players;
+using Ladders_and_snakes_game.Configuration;
 
 namespace Ladders_and_snakes_game.Game_Logic
 {
@@ -15,7 +16,7 @@ namespace Ladders_and_snakes_game.Game_Logic
         // TODO HOW CAN BE MORE GENERIC ?
         //private readonly int _maxSnakesNumber = 15;
         //private readonly int _maxLaddersNumber = 15;
-        private readonly int _playersNumber = 2;
+        private readonly int _playersNumber;
 
         private readonly List<IPlayer> _playersList = new List<IPlayer>();
 
@@ -27,9 +28,12 @@ namespace Ladders_and_snakes_game.Game_Logic
 
         private Dice DiceTwo { get; } = new Dice();
 
-        public GameManager(int amountOfPlayers)
+        public GameManager(int amountOfPlayers, int rows, int cols, int snakesAmount, int laddersAmount)
         {
             _playersNumber = amountOfPlayers;
+            InitBoard(rows,cols);
+            InitCells(snakesAmount, laddersAmount);
+            InitPlayers();
         }
 
         public void InitPlayers() 
@@ -41,12 +45,12 @@ namespace Ladders_and_snakes_game.Game_Logic
             }
         }
 
-        public void InitBoard(int row,int cols)
+        private void InitBoard(int row,int cols)
         {
             _gameBoard = new Board(row, cols);
         }
 
-        public void InitCells(int snakesNumber , int laddersNumber)
+        private void InitCells(int snakesNumber , int laddersNumber)
         {
             _cellsFactory = new CellsFactory(snakesNumber, laddersNumber);
 
