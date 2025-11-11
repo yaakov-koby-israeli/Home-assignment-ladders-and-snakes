@@ -16,7 +16,7 @@ namespace Ladders_and_snakes_game.Front
         
         public void StartGame()
         {
-            
+            GetParamsForSnakeAndLadders();
         }
 
         private void GetParamsForSnakeAndLadders()
@@ -29,33 +29,35 @@ namespace Ladders_and_snakes_game.Front
             {
                 Console.Clear();
                 Console.WriteLine("Snakes And Ladders\n");
-                Console.WriteLine($"❌ Invalid input. Please Enter a number between 1 and {Configuration.GameSettings.MaxSnakes}.\n");
+                Console.WriteLine($"Invalid input. Please Enter a Snake number between 1 and {GameSettings.MaxSnakes}.\n");
                 snakesInput = Console.ReadLine();
             }
 
             Console.Clear();
             Console.WriteLine("Snakes And Ladders\n");
-            Console.Write("Enter number of snakes: ");
+            Console.Write("Enter number of Ladders: ");
             var laddersInput = Console.ReadLine();
 
             while (!UserInputValidation.LaddersInputValidation(ref laddersInput))
             {
                 Console.Clear();
                 Console.WriteLine("Snakes And Ladders\n");
-                Console.WriteLine($"❌ Invalid input. Please Enter a number between 1 and {Configuration.GameSettings.MaxLadders}.\n");
+                Console.WriteLine($"Invalid input. Please Enter a Ladders number between 1 and {GameSettings.MaxLadders}.\n");
                 laddersInput = Console.ReadLine();
             }
             Console.Clear();
 
             //Convert to int before passing to InitComponents
-            int snakes = int.Parse(snakesInput);
-            int ladders = int.Parse(laddersInput);
-            InitComponents(snakes, ladders);
+            GameSettings.Snakes = int.Parse(snakesInput);
+            GameSettings.Ladders = int.Parse(laddersInput);
+
+            InitComponents();
         }
 
-        private void InitComponents(int snakesAmount , int laddersAmount)
+        private void InitComponents()
         {
-
+            _gameManager = new GameManager(GameSettings.Players,
+                GameSettings.Rows, GameSettings.Cols, GameSettings.Snakes, GameSettings.Ladders);
         }
 
     }
