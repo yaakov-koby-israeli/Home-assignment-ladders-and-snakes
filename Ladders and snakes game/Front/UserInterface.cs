@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Ladders_and_snakes_game.Configuration;
 using Ladders_and_snakes_game.Game_Logic;
 using Ladders_and_snakes_game.Configuration;
+using Ladders_and_snakes_game.Players;
 
 namespace Ladders_and_snakes_game.Front
 {
@@ -16,7 +17,7 @@ namespace Ladders_and_snakes_game.Front
         
         public void StartGame()
         {
-           // GetParamsForSnakeAndLadders();
+            GetParamsForSnakeAndLadders();
             PrintBoard(GameSettings.Rows, GameSettings.Cols);
         }
 
@@ -82,7 +83,9 @@ namespace Ladders_and_snakes_game.Front
                     for (int c = 0; c < cols; c++)
                     {
                         int value = rowStart + c;
-                        Console.Write("|" + Center(value.ToString(), cellWidth));
+                        //Console.Write("|" + Center(value.ToString(), cellWidth));
+                        Console.Write("|" + Center(_gameManager.GetUiToken(value), cellWidth));
+
                     }
                 }
                 else
@@ -90,7 +93,8 @@ namespace Ladders_and_snakes_game.Front
                     for (int c = cols - 1; c >= 0; c--)
                     {
                         int value = rowStart + c;
-                        Console.Write("|" + Center(value.ToString(), cellWidth));
+                        //Console.Write("|" + Center(value.ToString(), cellWidth));
+                        Console.Write("|" + Center(_gameManager.GetUiToken(value), cellWidth));
                     }
                 }
                 Console.WriteLine("|");
@@ -100,19 +104,20 @@ namespace Ladders_and_snakes_game.Front
             }
         }
 
-        static void DrawBorder(int cols, int cellWidth)
+        private void DrawBorder(int cols, int cellWidth)
         {
             for (int c = 0; c < cols; c++)
                 Console.Write("+" + new string('-', cellWidth));
             Console.WriteLine("+");
         }
 
-        static string Center(string text, int width)
+        private string Center(string text, int width)
         {
             int padding = width - text.Length;
             int padLeft = text.Length + padding / 2;
             return text.PadLeft(padLeft).PadRight(width);
         }
 
+        
     }
 }

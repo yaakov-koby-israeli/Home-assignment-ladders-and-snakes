@@ -45,6 +45,11 @@ namespace Ladders_and_snakes_game.Game_Logic
             }
         }
 
+        public List<IPlayer> GetPlayersList()
+        {
+            return _playersList;
+        }
+
         private void InitBoard(int row,int cols)
         {
             _gameBoard = new Board(row, cols);
@@ -107,7 +112,7 @@ namespace Ladders_and_snakes_game.Game_Logic
                     FindSnakeTailAndMovePlayerDown( currentPlayer);
                     break;
 
-                case enumCellType.LadderHead:
+                case enumCellType.LadderTop:
                     // TODO handle ladder head logic
                     break;
 
@@ -129,7 +134,7 @@ namespace Ladders_and_snakes_game.Game_Logic
             }
         }
 
-        // check if any player position reached or exceeded position 100
+        // func checks if any player position reached or exceeded position 100
         private bool GameOver()
         {
             bool isGameOver = false;
@@ -145,6 +150,34 @@ namespace Ladders_and_snakes_game.Game_Logic
                 }
             }
             return isGameOver;
+        }
+
+        public string GetUiToken(int index)
+        {
+            var p = _playersList.FirstOrDefault(pl => pl.Position == index);
+            if (p != null) return $"P{p.Id}";
+
+            var cell = _gameBoard.GetCells()[index];
+            if (cell != null)
+            {
+                switch (cell.GetCellType())
+                {
+                    case enumCellType.SnakeHead:
+                        return "SH";
+                    case enumCellType.SnakeTail:
+                        return "ST";
+                    case enumCellType.LadderTop:
+                        return "LT";
+                    case enumCellType.LadderBottom:
+                        return "LB";
+                    case enumCellType.GoldenCell:
+                        return "G";
+                    default:
+                        return index.ToString();
+                }
+            }
+
+            return index.ToString();
         }
     }
 }
