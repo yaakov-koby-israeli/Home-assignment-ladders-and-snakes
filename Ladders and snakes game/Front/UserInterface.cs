@@ -13,7 +13,6 @@ namespace Ladders_and_snakes_game.Front
     {
         // TODO MAYBE USE DI OR singleton
         private GameManager _gameManager = null;
-
         
         public void StartGame()
         {
@@ -31,6 +30,19 @@ namespace Ladders_and_snakes_game.Front
                 Console.Clear();
                 Console.WriteLine("Snakes And Ladders\n");
                 Console.WriteLine($"❌ Invalid input. Please Enter a number between 1 and {Configuration.GameSettings.MaxSnakes}.\n");
+                snakes = Console.ReadLine();
+            }
+
+            Console.Clear();
+            Console.WriteLine("Snakes And Ladders\n");
+            Console.Write("Enter number of snakes: ");
+            var ladders = Console.ReadLine();
+
+            while (!UserInputValidation.LaddersInputValidation(ladders))
+            {
+                Console.Clear();
+                Console.WriteLine("Snakes And Ladders\n");
+                Console.WriteLine($"❌ Invalid input. Please Enter a number between 1 and {Configuration.GameSettings.MaxLadders}.\n");
                 snakes = Console.ReadLine();
             }
         }

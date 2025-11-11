@@ -9,7 +9,7 @@ namespace Ladders_and_snakes_game.Front
 {
     internal class UserInputValidation
     {
-        public static bool  SnakesInputValidation(string snakesNumber)
+        public static bool SnakesInputValidation(string snakesNumber)
         {
             bool isValid = true;
 
@@ -19,7 +19,22 @@ namespace Ladders_and_snakes_game.Front
             }
             if (snakes < 1 || snakes > Configuration.GameSettings.MaxSnakes)
             {
-                Console.WriteLine($"❌ Invalid number of snakes. Enter a number between 1 and {Configuration.GameSettings.MaxSnakes}.\n");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        public static bool LaddersInputValidation(string laddersNumber)
+        {
+            bool isValid = true;
+
+            if (!int.TryParse(laddersNumber, out int ladders))
+            {
+                isValid = false;
+            }
+            if (ladders < 1 || ladders > Configuration.GameSettings.MaxLadders)
+            {
                 isValid = false;
             }
 
