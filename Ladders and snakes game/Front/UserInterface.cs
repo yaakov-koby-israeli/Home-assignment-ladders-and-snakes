@@ -19,32 +19,44 @@ namespace Ladders_and_snakes_game.Front
             
         }
 
-        public void GetParamsForSnakeAndLadders()
+        private void GetParamsForSnakeAndLadders()
         {
             Console.WriteLine("Snakes And Ladders\n");
             Console.Write("Enter number of snakes: ");
-            var snakes = Console.ReadLine();
+            var snakesInput = Console.ReadLine();
 
-            while (!UserInputValidation.SnakesInputValidation(snakes))
+            while (!UserInputValidation.SnakesInputValidation(ref snakesInput))
             {
                 Console.Clear();
                 Console.WriteLine("Snakes And Ladders\n");
                 Console.WriteLine($"❌ Invalid input. Please Enter a number between 1 and {Configuration.GameSettings.MaxSnakes}.\n");
-                snakes = Console.ReadLine();
+                snakesInput = Console.ReadLine();
             }
 
             Console.Clear();
             Console.WriteLine("Snakes And Ladders\n");
             Console.Write("Enter number of snakes: ");
-            var ladders = Console.ReadLine();
+            var laddersInput = Console.ReadLine();
 
-            while (!UserInputValidation.LaddersInputValidation(ladders))
+            while (!UserInputValidation.LaddersInputValidation(ref laddersInput))
             {
                 Console.Clear();
                 Console.WriteLine("Snakes And Ladders\n");
                 Console.WriteLine($"❌ Invalid input. Please Enter a number between 1 and {Configuration.GameSettings.MaxLadders}.\n");
-                snakes = Console.ReadLine();
+                laddersInput = Console.ReadLine();
             }
+            Console.Clear();
+
+            //Convert to int before passing to InitComponents
+            int snakes = int.Parse(snakesInput);
+            int ladders = int.Parse(laddersInput);
+            InitComponents(snakes, ladders);
         }
+
+        private void InitComponents(int snakesAmount , int laddersAmount)
+        {
+
+        }
+
     }
 }

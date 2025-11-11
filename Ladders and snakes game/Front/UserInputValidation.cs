@@ -9,7 +9,7 @@ namespace Ladders_and_snakes_game.Front
 {
     internal class UserInputValidation
     {
-        public static bool SnakesInputValidation(string snakesNumber)
+        public static bool SnakesInputValidation(ref string snakesNumber)
         {
             bool isValid = true;
 
@@ -25,7 +25,7 @@ namespace Ladders_and_snakes_game.Front
             return isValid;
         }
 
-        public static bool LaddersInputValidation(string laddersNumber)
+        public static bool LaddersInputValidation(ref string laddersNumber)
         {
             bool isValid = true;
 
