@@ -14,6 +14,9 @@ namespace Ladders_and_snakes_game.Configuration
         public static int Rows { get; set; } = 10;
         public static int Cols { get; set; } = 10;
 
+        public static int Snakes { get; set; } = 10;
+        public static int Ladders { get; set; } = 10;
+
         public static int Players { get; set; } = 2;
 
     }
