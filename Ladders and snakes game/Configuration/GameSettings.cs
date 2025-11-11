@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace Ladders_and_snakes_game.Configuration
 {
-    internal sealed class GameSettings
+    internal static class GameSettings
     {
-
+        // Default values (you can change them at runtime before starting the game)
+        public static int MaxSnakes { get;} = 12;
+        public static int MaxLadders { get; } = 12;
+        public static int Rows { get; set; } = 10;
+        public static int Cols { get; set; } = 10;
+        
     }
 }
