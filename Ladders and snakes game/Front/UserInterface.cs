@@ -14,16 +14,20 @@ namespace Ladders_and_snakes_game.Front
     {
         // TODO MAYBE USE DI OR singleton
         private GameManager _gameManager = null;
-        
+
         public void StartGame()
         {
             GetParamsForSnakeAndLadders();
             PrintBoard(GameSettings.Rows, GameSettings.Cols);
+            SubscribeToEvents();
+
+            _gameManager.TurnManager();
+
         }
 
         private void GetParamsForSnakeAndLadders()
         {
-            Console.WriteLine("Snakes And Ladders\n");
+            Console.WriteLine("Snakes And Ladders\n"); 
             Console.Write("Enter number of snakes: ");
             var snakesInput = Console.ReadLine();
 
@@ -62,8 +66,62 @@ namespace Ladders_and_snakes_game.Front
                 GameSettings.Rows, GameSettings.Cols, GameSettings.Snakes, GameSettings.Ladders);
         }
 
+        private void SubscribeToEvents()
+        {
+            _gameManager.OnGameOver += OnGameOverHandler;
+            _gameManager.OnTurnStarted += OnTurnStartedHandler;
+            // _gameManager.OnTurnFinished += PrintBoard(GameSettings.Rows, GameSettings.Cols);
+            _gameManager.OnTurnFinished += () => PrintBoard(GameSettings.Rows, GameSettings.Cols);
+            _gameManager.OnRollDice += OnRollDiceHandler;
+        }
+
+        private void OnRollDiceHandler(int sumOfDice)
+        {
+            Console.WriteLine($"\t\t\t\t\t\t\tDice: {sumOfDice}");
+        }
+
+        private void OnTurnStartedHandler(int playerNumber)
+        {
+            Console.WriteLine($"player {playerNumber} Press Space To Make your turn\n");
+            WaitForSpaceKey();
+        }
+        private void WaitForSpaceKey()
+        {
+            ConsoleKey key;
+            do
+            {
+                key = Console.ReadKey(intercept: true).Key; // intercept=true hides the key from console
+                if (key != ConsoleKey.Spacebar)
+                {
+                    Console.WriteLine("Please press SPACE to roll the dice.");
+                }
+            }
+            while (key != ConsoleKey.Spacebar);
+        }
+        private void OnGameOverHandler()
+        {
+            Console.Clear();
+            Console.WriteLine("Game Over!");
+            Console.WriteLine("Would you like to play again? (y/n)");
+
+            string choice = Console.ReadLine()?.Trim().ToLower();
+
+            if (choice == "y")
+            {
+                Console.Clear();
+                StartGame();  
+            }
+            else
+            {
+                Console.WriteLine("Thanks for playing!");
+                Environment.Exit(0);  
+            }
+        }
+
+        // Next Three functions for printing the board in console
         private void PrintBoard(int rows , int cols)
         {
+            Console.Clear();
             int cellWidth = 6; // adjust for wider cells
 
             // top border
@@ -85,7 +143,6 @@ namespace Ladders_and_snakes_game.Front
                         int value = rowStart + c;
                         //Console.Write("|" + Center(value.ToString(), cellWidth));
                         Console.Write("|" + Center(_gameManager.GetUiToken(value), cellWidth));
-
                     }
                 }
                 else

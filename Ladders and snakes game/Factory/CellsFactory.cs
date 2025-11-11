@@ -53,7 +53,7 @@ namespace Ladders_and_snakes_game.Factory
 
                 SnakeLink newSnake = new SnakeLink(snakeHead, snakeTail);
 
-                // add the new snake to the board snakes list
+                // add the new snake to the snakes list
                 gameBoard.GetSnakesList().Add(newSnake);
             }
         }
