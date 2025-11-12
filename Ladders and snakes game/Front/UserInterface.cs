@@ -70,9 +70,10 @@ namespace Ladders_and_snakes_game.Front
         {
             _gameManager.OnGameOver += OnGameOverHandler;
             _gameManager.OnTurnStarted += OnTurnStartedHandler;
+            _gameManager.OnRollDice += OnRollDiceHandler;
+
             // _gameManager.OnTurnFinished += PrintBoard(GameSettings.Rows, GameSettings.Cols);
             _gameManager.OnTurnFinished += () => PrintBoard(GameSettings.Rows, GameSettings.Cols);
-            _gameManager.OnRollDice += OnRollDiceHandler;
         }
 
         private void OnRollDiceHandler(int sumOfDice)
@@ -85,6 +86,7 @@ namespace Ladders_and_snakes_game.Front
             Console.WriteLine($"player {playerNumber} Press Space To Make your turn\n");
             WaitForSpaceKey();
         }
+
         private void WaitForSpaceKey()
         {
             ConsoleKey key;
@@ -98,10 +100,12 @@ namespace Ladders_and_snakes_game.Front
             }
             while (key != ConsoleKey.Spacebar);
         }
-        private void OnGameOverHandler()
+
+        private void OnGameOverHandler(int id)
         {
             Console.Clear();
             Console.WriteLine("Game Over!");
+            Console.WriteLine($"Congrats ! player {id} Won ! \n");
             Console.WriteLine("Would you like to play again? (y/n)");
 
             string choice = Console.ReadLine()?.Trim().ToLower();
