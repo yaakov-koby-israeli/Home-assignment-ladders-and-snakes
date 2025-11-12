@@ -77,7 +77,7 @@ namespace Ladders_and_snakes_game.Front
 
         private void OnRollDiceHandler(int sumOfDice)
         {
-            Console.WriteLine($"\t\t\t\t\t\t\tDice: {sumOfDice}");
+            Console.WriteLine($"Dice: {sumOfDice}");
         }
 
         private void OnTurnStartedHandler(int playerNumber)
