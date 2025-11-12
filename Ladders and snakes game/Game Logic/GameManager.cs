@@ -18,6 +18,7 @@ namespace Ladders_and_snakes_game.Game_Logic
         //private readonly int _maxLaddersNumber = 15;
         private readonly int _playersNumber;
         private int _diceRes = 0;
+        private bool isGameOver = false;
 
         private readonly List<IPlayer> _playersList = new List<IPlayer>();
 
@@ -34,17 +35,22 @@ namespace Ladders_and_snakes_game.Game_Logic
         public delegate void RollDiceHandler(int sumOfDice);
         public event RollDiceHandler OnRollDice;
 
+        public delegate void OnGameOverHandler(int playerId);
+        public event OnGameOverHandler OnGameOver;
+
         public event Action OnTurnFinished;
-        public event Action OnGameOver;
+        
 
         public GameManager(int amountOfPlayers, int rows, int cols, int snakesAmount, int laddersAmount)
         {
             _playersNumber = amountOfPlayers;
+
+            InitPlayers();
             InitBoard(rows,cols);
             InitCells(snakesAmount, laddersAmount);
-            InitPlayers();
         }
 
+        // Init Methods
         public void InitPlayers() 
         {
             for (int i = 0; i < _playersNumber; i++)
@@ -52,11 +58,6 @@ namespace Ladders_and_snakes_game.Game_Logic
                 Player newPlayer = new Player();
                 _playersList.Add(newPlayer);
             }
-        }
-
-        public List<IPlayer> GetPlayersList()
-        {
-            return _playersList;
         }
 
         private void InitBoard(int row,int cols)
@@ -72,25 +73,27 @@ namespace Ladders_and_snakes_game.Game_Logic
 
             _cellsFactory.InitSnakes(ref _gameBoard);
 
-            // TODO init ladders here !!!
+            _cellsFactory.InitLadders(ref _gameBoard);
 
             _cellsFactory.InitEmptyCells(ref _gameBoard); 
         }
-
+        
         // return sum of dices
         public int RollDices()
         {
-            return DiceOne.RollTheDice() + DiceTwo.RollTheDice();
+            _diceRes = DiceOne.RollTheDice() + DiceTwo.RollTheDice();
+            return _diceRes;
         }
 
+        // Game Sequence Chain
         public void TurnManager()
         {
             int index = 0;
 
-            while (!GameOver())
+            while (! isGameOver)
             {
                 var currentPlayer = _playersList[index];
-                OnTurnStarted?.Invoke(index+1);
+                OnTurnStarted?.Invoke(currentPlayer.Id);
 
                 PlayerOnTurn(currentPlayer);
 
@@ -105,18 +108,10 @@ namespace Ladders_and_snakes_game.Game_Logic
         private void PlayerOnTurn(IPlayer player)
         {
             _diceRes = RollDices();
-            //OnRollDice?.Invoke(_diceRes);
 
             player.MovePlayer(_diceRes);
 
-            //// todo delegate and event driven for Game Over method !!!
-            //// check if player reached or exceeded position 100
-            //if (GameOver())
-            //{
-            //    // todo need raise an event to finish the game !!!
-            //}
-
-            GameOver();
+            CheckIfGameOver();
 
             CheckIfSpecialCellType(player);
         }
@@ -127,11 +122,15 @@ namespace Ladders_and_snakes_game.Game_Logic
             switch (currentCellType)
             {
                 case enumCellType.SnakeHead:
-                    FindSnakeTailAndMovePlayerDown( currentPlayer);
+                    FindSnakeTailAndMovePlayerDown(currentPlayer);
                     break;
 
-                case enumCellType.LadderTop:
-                    // TODO handle ladder head logic
+                case enumCellType.LadderBottom:
+                    FindLadderTopAndMovePlayerUp(currentPlayer);
+                    break;
+
+                case enumCellType.GoldenCell:
+                    // TODO implement golden cell effect !!!
                     break;
 
             }
@@ -152,8 +151,22 @@ namespace Ladders_and_snakes_game.Game_Logic
             }
         }
 
-        // func checks if any player position reached or exceeded position 100
-        private bool GameOver()
+        private void FindLadderTopAndMovePlayerUp(IPlayer currentPlayer)
+        {
+            // TODO LEARN THIS CODE !!! LINQ !!!
+            // Find the ladder whose BOTTOM is at the player's current index
+            var ladder = _gameBoard.GetLadderList()
+                .FirstOrDefault(l => l.GetTopCell() == _gameBoard.GetCells()[currentPlayer.Position]);
+
+            if (ladder != null)
+            {
+                //currentPlayer.Position = ladder.GetBottomCell().GetIndex();
+                ladder.MovePlayerUp(currentPlayer);
+            }
+        }
+
+        // func checks if any player position reached or exceeded Max position 
+        private bool CheckIfGameOver()
         {
             bool isGameOver = false;
             int lastIndex = _gameBoard.GetBoardSize()-1; // we add one to real size because index starts from 0
@@ -164,7 +177,7 @@ namespace Ladders_and_snakes_game.Game_Logic
                 {
                     isGameOver = true;
                     player.HasWon = true;
-                    OnGameOver?.Invoke();
+                    OnGameOver?.Invoke(player.Id);
                     break;
                 }
             }
