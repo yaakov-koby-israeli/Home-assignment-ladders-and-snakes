@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="Configuration\GameSettings.cs" />
     <Compile Include="Core\Board.cs" />
+    <Compile Include="Core\LadderLink.cs" />
     <Compile Include="Factory\CellsFactory.cs" />
     <Compile Include="Core\Cell.cs" />
     <Compile Include="Front\UserInputValidation.cs" />
