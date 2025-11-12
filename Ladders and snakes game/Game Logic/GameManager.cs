@@ -17,6 +17,7 @@ namespace Ladders_and_snakes_game.Game_Logic
         //private readonly int _maxSnakesNumber = 15;
         //private readonly int _maxLaddersNumber = 15;
         private readonly int _playersNumber;
+        private int _leadPlayerId = 1;
         private int _diceRes = 0;
         private bool isGameOver = false;
 
@@ -69,7 +70,7 @@ namespace Ladders_and_snakes_game.Game_Logic
         {
             _cellsFactory = new CellsFactory(snakesNumber, laddersNumber);
 
-            // TODO init gold cells here !!!
+            _cellsFactory.InitGoldCells(ref _gameBoard);
 
             _cellsFactory.InitSnakes(ref _gameBoard);
 
@@ -97,8 +98,10 @@ namespace Ladders_and_snakes_game.Game_Logic
 
                 PlayerOnTurn(currentPlayer);
 
-                OnTurnFinished?.Invoke(); // printing updated board
-                OnRollDice?.Invoke(_diceRes); // print dice result
+                UpdateLeaderId();
+
+                OnTurnFinished?.Invoke(); // printing updated board in ui
+                OnRollDice?.Invoke(_diceRes); // print dice result in ui
 
                 // move to next player
                 index = (index + 1) % _playersList.Count; // when it reaches end, go back to 0
@@ -130,9 +133,11 @@ namespace Ladders_and_snakes_game.Game_Logic
                     break;
 
                 case enumCellType.GoldenCell:
-                    // TODO implement golden cell effect !!!
+                    if (currentPlayer.Id != _leadPlayerId)
+                    {
+                        ActivateGoldCellSwitch(currentPlayer);
+                    }
                     break;
-
             }
         }
 
@@ -163,6 +168,27 @@ namespace Ladders_and_snakes_game.Game_Logic
                 //currentPlayer.Position = ladder.GetBottomCell().GetIndex();
                 ladder.MovePlayerUp(currentPlayer);
             }
+        }
+
+        private void ActivateGoldCellSwitch(IPlayer currentPlayer)
+        {
+            IPlayer currentLeaderPlayer = _playersList.FirstOrDefault(p => p.Id == _leadPlayerId);
+            Cell currentGoldCell = _gameBoard.GetCells()[currentPlayer.Position];
+
+            if (currentGoldCell is GoldCell goldCell)
+            {
+                goldCell.OnLand(currentLeaderPlayer, currentPlayer);
+            }
+        }
+
+        private void UpdateLeaderId()
+        {
+            IPlayer leader = _playersList
+                .OrderByDescending(player => player.Position)
+                .FirstOrDefault();
+
+            if (leader != null)
+                _leadPlayerId = leader.Id;
         }
 
         // func checks if any player position reached or exceeded Max position 
