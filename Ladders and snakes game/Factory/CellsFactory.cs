@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ladders_and_snakes_game.Configuration;
 using Ladders_and_snakes_game.Core;
 using Ladders_and_snakes_game.Utilities;
 
@@ -19,8 +20,6 @@ namespace Ladders_and_snakes_game.Factory
             LaddersNumber = laddersNumber;
         }
 
-        // TODO init Gold cells here !!!
-
         // Initialize Empty Cells
         public void InitEmptyCells(ref Board gameBoard)
         {
@@ -30,10 +29,37 @@ namespace Ladders_and_snakes_game.Factory
             {
                 if (cells[i] == null)
                 {
-                    cells[i] = new EmptyCell(i,enumCellType.Empty);
+                    cells[i] = new EmptyCell(i, enumCellType.Empty);
                 }
             }
         }
+
+        // Initialize Gold Cells chain
+        public void InitGoldCells(ref Board gameBoard)
+        {
+            int max = gameBoard.GetBoardSize() / 2 ;
+            int min = 1;
+
+            for (int i = 0; i < GameSettings.MaxGold; i++)
+            {
+                int currentGoldCellPosition = GetRandomIndexForGoldCell(max, min, ref gameBoard);
+
+                // assign gold cell to the random position in the board
+                gameBoard.GetCells()[currentGoldCellPosition] = new GoldCell(currentGoldCellPosition, enumCellType.GoldenCell);
+            }
+        }
+
+        int GetRandomIndexForGoldCell(int max , int min ,ref Board gameBoard)
+        {
+            int randomIndex;
+            do
+            {
+                randomIndex = RandomProvider.Instance.Next(min, max);
+            }
+            while (gameBoard.GetCells()[randomIndex] != null);
+            return randomIndex;
+        }
+
 
         // Initialize Snakes chain
         public void InitSnakes(ref Board gameBoard)
