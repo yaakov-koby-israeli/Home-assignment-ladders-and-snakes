@@ -20,10 +20,5 @@ namespace Ladders_and_snakes_game.Core
         {
             return _cellType;
         }
-
-        //protected override int OnLand()
-        //{
-        //    return _index;
-        //}
     }
 }
