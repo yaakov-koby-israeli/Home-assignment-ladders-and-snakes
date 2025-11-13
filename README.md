@@ -17,6 +17,32 @@ It includes:
 ✔ Multi-player support  
 
 ---
+## 🧠 Architecture Highlights
+
+### ✔️ Clean OOP Principles
+- **Abstract `Cell` class** inherited by:
+  - `EmptyCell`
+  - `TopOrBottomCell`
+  - `GoldCell`
+- `SnakeLink` and `LadderLink` store **head/tail** or **bottom/top** pairs.
+- `GameManager` encapsulates:
+  - Turn logic  
+  - Dice rolls  
+  - Leader tracking  
+  - Special cell handling  
+
+---
+
+### ✔️ Event-Driven UI
+Events:
+- `OnTurnStarted`
+- `OnRollDice`
+- `OnTurnFinished`
+- `OnGameOver`
+
+The Console UI **subscribes to events** and updates the game state visually.
+
+---
 ## 🗂 Project Structure
 ```
 Ladders_and_snakes_game/
@@ -130,7 +156,6 @@ The player can choose:
 - Press any other key → exit  
 
 ## 🎉 End of Game
----
 
 
 This concludes a full gameplay cycle.
