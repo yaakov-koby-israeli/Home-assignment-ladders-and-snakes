@@ -4,20 +4,20 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ladders_and_snakes_game.Configuration;
 using Ladders_and_snakes_game.Core;
 using Ladders_and_snakes_game.Factory;
 using Ladders_and_snakes_game.Players;
-using Ladders_and_snakes_game.Configuration;
+using Ladders_and_snakes_game.Utilities;
 
 namespace Ladders_and_snakes_game.Game_Logic
 {
-    internal class GameManager
+    internal sealed class GameManager
     {
         private readonly int _playersNumber;
         private int _leadPlayerId = 1;
         private int _diceRes = 0;
-        private bool isGameOver = false;
-
+        
         private readonly List<IPlayer> _playersList = new List<IPlayer>();
 
         private Board _gameBoard;
@@ -37,17 +37,16 @@ namespace Ladders_and_snakes_game.Game_Logic
         public event OnGameOverHandler OnGameOver;
 
         public event Action OnTurnFinished;
-        
 
-        public GameManager(int amountOfPlayers, int rows, int cols, int snakesAmount, int laddersAmount)
+        public GameManager()
         {
-            _playersNumber = amountOfPlayers;
+            _playersNumber = GameSettings.Players;
+
+            //  wrapping in loop and raise exception from InitCells. If failed after N attempts
+            // rethrow the exception so it will be caught and printed by the UI
+            WrapInitBoardAndInitCellInTryCatch();
 
             InitPlayers();
-            // TODO: wrap in loop and raise exception from InitCells. If failed after N attempts
-            // rethrow the exception so it will be caught and printed by the UI - or just re-init
-            InitBoard(rows,cols);
-            InitCells(snakesAmount, laddersAmount);
         }
 
         // Init Methods
@@ -60,6 +59,30 @@ namespace Ladders_and_snakes_game.Game_Logic
             }
         }
 
+        private void WrapInitBoardAndInitCellInTryCatch()
+        {
+            int attempts = 0;
+            while (true)// TODO
+            {
+
+                try
+                {
+                    InitBoard(GameSettings.Rows, GameSettings.Cols);
+                    InitCells(GameSettings.Snakes, GameSettings.Ladders);
+                    break;
+                }
+                catch (BoardInitializationException)
+                {
+                    attempts++;
+                    if (attempts > GameSettings.MaxAttemptsToInitBoard)
+                    {
+
+                        throw;
+                    }
+                }
+            }
+        }
+
         private void InitBoard(int row,int cols)
         {
             _gameBoard = new Board(row, cols);
@@ -69,13 +92,13 @@ namespace Ladders_and_snakes_game.Game_Logic
         {
             _cellsFactory = new CellsFactory(snakesNumber, laddersNumber);
 
-            _cellsFactory.InitGoldCells(ref _gameBoard);
+            _cellsFactory.InitGoldCells(_gameBoard);
 
-            _cellsFactory.InitSnakes(ref _gameBoard);
+            _cellsFactory.InitSnakes(_gameBoard);
 
-            _cellsFactory.InitLadders(ref _gameBoard);
+            _cellsFactory.InitLadders(_gameBoard);
 
-            _cellsFactory.InitEmptyCells(ref _gameBoard); 
+            _cellsFactory.InitEmptyCells(_gameBoard); 
         }
         
         // return sum of dices
@@ -140,7 +163,6 @@ namespace Ladders_and_snakes_game.Game_Logic
 
         private void FindSnakeTailAndMovePlayerDown(IPlayer currentPlayer)
         {
-            // TODO LEARN THIS CODE !!! LINQ !!!
             // Find the snake whose HEAD is at the player's current index
 
             var snake = _gameBoard.GetSnakesList()
@@ -148,7 +170,6 @@ namespace Ladders_and_snakes_game.Game_Logic
 
             if (snake != null)
             {
-                //currentPlayer.Position = snake.GetTailCell().GetIndex();
                 snake.MovePlayerDown(currentPlayer);
             }
         }
@@ -161,7 +182,6 @@ namespace Ladders_and_snakes_game.Game_Logic
 
             if (ladder != null)
             {
-                //currentPlayer.Position = ladder.GetBottomCell().GetIndex();
                 ladder.MovePlayerUp(currentPlayer);
             }
         }

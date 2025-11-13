@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Ladders_and_snakes_game.Configuration;
-using Ladders_and_snakes_game.Game_Logic;
 using Ladders_and_snakes_game.Configuration;
+using Ladders_and_snakes_game.Game_Logic;
 using Ladders_and_snakes_game.Players;
+using Ladders_and_snakes_game.Utilities;
 
 namespace Ladders_and_snakes_game.Front
 {
@@ -20,9 +21,22 @@ namespace Ladders_and_snakes_game.Front
         {
             while (!_isGameOver)
             {
-                GetParamsForSnakeAndLadders();
+                // loop to check if not able to build the board and trying again
+                while (true)
+                {
+                    GetParamsForSnakeAndLadders();
 
-                InitComponents();
+                    try
+                    {
+                        InitComponents();
+                        break;
+                    }
+                    catch (BoardInitializationException)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Failed to built the game, please enter data again ): \n");
+                    }
+                }
 
                 PrintBoard(GameSettings.Rows, GameSettings.Cols);
 
@@ -33,7 +47,6 @@ namespace Ladders_and_snakes_game.Front
                 HandleRestartOrExit();
             }
         }
-
         private void GetParamsForSnakeAndLadders()
         {
             Console.WriteLine("Snakes And Ladders\n"); 
@@ -69,8 +82,7 @@ namespace Ladders_and_snakes_game.Front
 
         private void InitComponents()
         {
-            _gameManager = new GameManager(GameSettings.Players,
-                GameSettings.Rows, GameSettings.Cols, GameSettings.Snakes, GameSettings.Ladders);
+            _gameManager = new GameManager();
         }
 
         private void SubscribeToEvents()
