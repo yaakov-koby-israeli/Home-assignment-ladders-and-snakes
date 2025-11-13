@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ladders_and_snakes_game.Core
 {
-    internal class Board
+    internal sealed class Board
     {
         private readonly int _rows = 0;
         private readonly int _cols = 0;
