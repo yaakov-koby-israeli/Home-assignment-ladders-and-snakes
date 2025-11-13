@@ -156,6 +156,3 @@ The player can choose:
 - Press any other key → exit  
 
 ## 🎉 End of Game
-
-
-This concludes a full gameplay cycle.
