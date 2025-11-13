@@ -7,7 +7,7 @@ using Ladders_and_snakes_game.Players;
 
 namespace Ladders_and_snakes_game.Core
 {
-    internal class LadderLink
+    internal sealed class LadderLink
     {
         private readonly TopOrBottomCell _bottomCell;
         private readonly TopOrBottomCell _topCell;
@@ -24,7 +24,6 @@ namespace Ladders_and_snakes_game.Core
         {
             return _topCell;
         }
-
         public void MovePlayerUp(IPlayer player)
         {
             player.Position = _topCell.GetIndex();

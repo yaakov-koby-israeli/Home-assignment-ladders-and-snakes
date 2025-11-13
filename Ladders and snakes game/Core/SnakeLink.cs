@@ -7,32 +7,30 @@ using Ladders_and_snakes_game.Players;
 
 namespace Ladders_and_snakes_game.Core
 {
-    internal class SnakeLink
-
+    internal sealed class SnakeLink
     {
-    private readonly TopOrBottomCell _headCell;
-    private readonly TopOrBottomCell _tailCell;
+        private readonly TopOrBottomCell _headCell;
+        private readonly TopOrBottomCell _tailCell;
 
-    public SnakeLink(TopOrBottomCell headIndex, TopOrBottomCell tailIndex)
-    {
-        this._headCell = headIndex;
-        this._tailCell = tailIndex;
-    }
+        public SnakeLink(TopOrBottomCell headIndex, TopOrBottomCell tailIndex)
+        {
+            this._headCell = headIndex;
+            this._tailCell = tailIndex;
+        }
 
-    public TopOrBottomCell GetHeadCell()
-    {
-        return _headCell;
-    }
+        public TopOrBottomCell GetHeadCell()
+        {
+            return _headCell;
+        }
 
-    public TopOrBottomCell GetTailCell()
-    {
-        return _tailCell;
-    }
+        public TopOrBottomCell GetTailCell()
+        {
+            return _tailCell;
+        }
 
-    public void MovePlayerDown(IPlayer player)
-    {
-        player.Position = _tailCell.GetIndex();
-    }
-
+        public void MovePlayerDown(IPlayer player)
+        {
+            player.Position = _tailCell.GetIndex();
+        }
     }
 }
