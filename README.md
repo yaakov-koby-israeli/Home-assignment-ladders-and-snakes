@@ -18,6 +18,7 @@ It includes:
 
 ---
 ## 🗂 Project Structure
+```
 Ladders_and_snakes_game/
 │
 ├── Program.cs
@@ -53,7 +54,7 @@ Ladders_and_snakes_game/
 │
 └── Configuration/
     └── GameSettings.cs
-
+```
 ---
 
 ## 📸 Gameplay Screenshots (Step-by-Step)
