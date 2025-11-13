@@ -30,7 +30,7 @@ namespace Ladders_and_snakes_game.Game_Logic
         public delegate void TurnStartedHandler(int player);
         public event TurnStartedHandler OnTurnStarted;
 
-        public delegate void RollDiceHandler(int sumOfDice);
+        public delegate void RollDiceHandler(int sumOfDice , int currentPlayerId , int prevPos, int currentPlayerPosition);// _diceRes , currentPlayer.Id , prevPos , currentPlayer.Position
         public event RollDiceHandler OnRollDice;
 
         public delegate void OnGameOverHandler(int playerId);
@@ -62,9 +62,8 @@ namespace Ladders_and_snakes_game.Game_Logic
         private void WrapInitBoardAndInitCellInTryCatch()
         {
             int attempts = 0;
-            while (true)// TODO
+            while (true)
             {
-
                 try
                 {
                     InitBoard(GameSettings.Rows, GameSettings.Cols);
@@ -74,9 +73,9 @@ namespace Ladders_and_snakes_game.Game_Logic
                 catch (BoardInitializationException)
                 {
                     attempts++;
+
                     if (attempts > GameSettings.MaxAttemptsToInitBoard)
                     {
-
                         throw;
                     }
                 }
@@ -86,6 +85,8 @@ namespace Ladders_and_snakes_game.Game_Logic
         private void InitBoard(int row,int cols)
         {
             _gameBoard = new Board(row, cols);
+            _gameBoard.GetSnakesList().Clear();
+            _gameBoard.GetLadderList().Clear();
         }
 
         private void InitCells(int snakesNumber , int laddersNumber)
@@ -118,8 +119,11 @@ namespace Ladders_and_snakes_game.Game_Logic
                 var currentPlayer = _playersList[index];
                 OnTurnStarted?.Invoke(currentPlayer.Id);
 
-                _diceRes = RollDices();
+                // save to send to ui
+                int prevPos = currentPlayer.Position;
 
+                _diceRes = RollDices();
+                
                 currentPlayer.MovePlayer(_diceRes);
 
                 CheckIfSpecialCellType(currentPlayer);
@@ -127,7 +131,7 @@ namespace Ladders_and_snakes_game.Game_Logic
                 UpdateLeaderId();
 
                 OnTurnFinished?.Invoke(); // printing updated board in ui
-                OnRollDice?.Invoke(_diceRes); // printing dice result in ui
+                OnRollDice?.Invoke(_diceRes , currentPlayer.Id , prevPos , currentPlayer.Position); // printing dice result in ui
                 
                 if (IsGameOver())
                 {
