@@ -2,7 +2,7 @@
 {
     internal static class GameSettings
     {
-        // Default values 
+        // Default values //testing purpose
         public static int MaxSnakes { get;} = 12;
         public static int MaxLadders { get; } = 12; 
         public static int MaxGold { get; } = 2;
