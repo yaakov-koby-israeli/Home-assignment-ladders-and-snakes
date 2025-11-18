@@ -38,12 +38,13 @@
   <ItemGroup>
     <Compile Include="Configuration\GameSettings.cs" />
     <Compile Include="Core\Board.cs" />
+    <Compile Include="Core\GoldCell.cs" />
     <Compile Include="Core\LadderLink.cs" />
     <Compile Include="Factory\CellsFactory.cs" />
     <Compile Include="Core\Cell.cs" />
     <Compile Include="Front\UserInputValidation.cs" />
     <Compile Include="Front\UserInterface.cs" />
-    <Compile Include="Game Logic\Dice.cs" />
+    <Compile Include="Core\Dice.cs" />
     <Compile Include="Core\EmptyCell.cs" />
     <Compile Include="Core\EnumCellType.cs" />
     <Compile Include="Core\TopOrBottomCell.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Players\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Core\SnakeLink.cs" />
+    <Compile Include="Utilities\BoardInitializationException.cs" />
     <Compile Include="Utilities\RandomProvider.cs" />
   </ItemGroup>
   <ItemGroup />
