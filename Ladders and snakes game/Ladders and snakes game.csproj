@@ -49,6 +49,7 @@
     <Compile Include="Core\EnumCellType.cs" />
     <Compile Include="Core\TopOrBottomCell.cs" />
     <Compile Include="Game Logic\GameManager.cs" />
+    <Compile Include="InternalsVisibleTo.cs" />
     <Compile Include="Players\IPlayer.cs" />
     <Compile Include="Players\Player.cs" />
     <Compile Include="Program.cs" />
