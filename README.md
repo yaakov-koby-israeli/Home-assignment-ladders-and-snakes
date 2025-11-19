@@ -58,14 +58,13 @@ Ladders_and_snakes_game/
 │   ├── LadderLink.cs
 │   ├── SnakeLink.cs
 │   ├── TopOrBottomCell.cs
-│   └── BoardInitializationException.cs
+│   └── Dice.cs
 │
 ├── Factory/
 │   └── CellsFactory.cs
 │
 ├── Game_Logic/
-│   ├── GameManager.cs
-│   └── Dice.cs
+│   └── GameManager.cs
 │
 ├── Players/
 │   ├── IPlayer.cs
@@ -76,6 +75,7 @@ Ladders_and_snakes_game/
 │   └── UserInputValidation.cs
 │
 ├── Utilities/
+|   ├── BoardInitializationException.cs
 │   └── RandomProvider.cs
 │
 └── Configuration/
